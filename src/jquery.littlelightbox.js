@@ -578,6 +578,7 @@
  				this.isClosing = true;
  				lightbox.isDisplay = false;
   				this.unbindEvent();
+  				this._hideLoading();
  				this.trasition[this.opts.closeMethod]();
  			}
  		}
@@ -788,6 +789,7 @@
  		close: function() {
  			var that = this;
  			if (!lightbox.isClosing) {
+ 				lightbox._hideLoading();
 				that.mask.off('.mask').fadeOut(that.opts.speed, function() {
 					that.mask.remove();
 					that.mask = null;
