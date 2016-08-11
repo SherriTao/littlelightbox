@@ -62,13 +62,35 @@
  				direction: {
  					next: 'left',
  					prev: 'right'
- 				}
+ 				},
+
+ 				// key settings
+  				keys: {
+  					close: [27, 46], // esc key & delete key
+  					next: {
+  						13: 'left', // enter key
+  						39: 'left', // right arrow
+  						68: 'left', // D key
+  						40: 'up',   // down arrow
+  						34: 'up',   // pgdn key
+  						83: 'up',   // S key
+  					},
+  					prev: {
+  						8: 'right',  // backspace key
+  						37: 'right', // left arrow
+  						65: 'right', // A key
+  						38: 'down',  // up arrow
+  						33: 'down',  // pgup key
+  						87: 'down',  // W key
+  					},
+  				},
  			},
  		helpers: {},
  		isOpen: false,
  		isClosing: false,
- 		doUpdate: null,
+ 		isDisplay: false,
 
+ 		doUpdate: null,
  		coming: null,
  		current: null,
 
@@ -80,6 +102,10 @@
 
  			this.opts = $.extend({}, this.defaults, options || {});
  			
+ 			if (options && options.keys) {
+  				$.extend(this.opts, this.defaults.keys, options.keys);
+  			}
+
  			// Normalize group
  			if (!$.isArray(group)) {
  				group = isQuery(group) ? group.get() : [group];
@@ -124,40 +150,43 @@
  			this._run(this.opts.index);
  		},
 
- 		next: function() {
+ 		next: function(direct) {
  			if (lightbox.isClosing) {
  				return ;
  			}
 
  			var current = lightbox.current,
  				index,
- 				direct;
+ 				direction;
 
  			if (current) {
  				index = current.index;
- 				direct = current.direction.next;
+ 				direction = (direct && $.type(direct) === "string") ? direct : current.direction.next;
 
- 				this._jump(index + 1, direct);
+ 				this._jump(index + 1, direction);
  			}
  		},
 
- 		prev: function() {
+ 		prev: function(direct) {
  			if (lightbox.isClosing) {
  				return ;
  			}
  			var current = lightbox.current,
  				index,
- 				direct;
+ 				direction;
 
  			if (current) {
  				index = current.index;
- 				direct = current.direction.prev;
+ 				direction = (direct && $.type(direct) === "string") ? direct : current.direction.prev;
 
- 				this._jump(index - 1, direct);
+ 				this._jump(index - 1, direction);
  			}
  		},
 
  		_jump: function(index, direction) {
+ 			if (!this.isDisplay)
+  				return ;
+
  			var imageNum = this.group.length,
  				index = index - 1;
  			
@@ -179,6 +208,10 @@
 
  			var obj = (this.group)[index],
  				coming = $.extend({}, this.opts, obj);	
+
+ 			if (!obj) {
+  				return ;
+  			}	
 
  			if (!this.isOpen) {
  				this.helpers.mask.open(this.opts.helpers.mask || {});			
@@ -271,6 +304,8 @@
  				coming: null,
  			});
 
+ 			this.unbindEvent();
+
  			if (previous) {
  				this.width = 'auto';
  				this.height = 'auto';
@@ -284,11 +319,6 @@
  			$(content).appendTo(current.inner);
 
  			// create title helper.
- 			// defaults: {
- 			// 	position: 'bottom', // title position: top, bottom.
- 			//	type: 'over', // title type: inside, over.
- 			//	text: 'photo title',
- 			// }
 
  			var titleOpts = $.extend({'text': current.text,
  									'idxInfo': 'image ' + current.index + ' of ' + this.group.length},
@@ -314,21 +344,57 @@
 
  			// Transition
  			if (previous) {
+ 				this.isDisplay = false;
  				this.trasition[previous.prevMethod]();
  			}
  			this.trasition[this.isOpen ? current.nextMethod : current.openMethod]();
  		},
 
  		unbindEvent: function() {
+ 			var current = this.current;
+ 
+  			if (current && isQuery(current.wrap)) {
+  				current.wrap.off('.btn');
+  			}
 
+  			window.off('.lb');
+  			document.off('.lb');
  		},
 
  		bindEvent: function() {
- 			var current = lightbox.current;
+ 			var current = lightbox.current,
+ 				keys;
+ 
+  			if (!current) {
+  				return ;
+  			}
 
- 			window.on('resize.lb', this.update);
+ 			window.off('.lb').on('resize.lb', this.update);
 
  			// Binding Key Board Event
+ 			keys = current.keys;
+ 
+  			if (keys) {
+  				document.on('keydown.lb', function(event) {
+  					var key = event.which || event.keyCode;
+ 
+  					$.each(keys, function(name, value) {
+  						// test close key
+  						if ($.inArray(key, value) > -1 && !lightbox.coming) {
+  							lightbox[name]();
+  							return false;
+  						}
+  						// test nav key
+  						if (lightbox.group.length > 1 && value[key] !== undefined ) {
+  							lightbox[name](value[key]);
+  							return false;
+  						}
+  					});
+ 
+  					event.preventDefault();
+  				});
+  			}
+
  		},
 
  		update: function() {
@@ -464,11 +530,13 @@
  			var current = lightbox.current;
  			lightbox.index = current.index;
  			
- 			current.closeBtn.off('.btn').on('click.btn', function(event) {
- 				event.preventDefault();
- 				lightbox.close();
- 			});
-
+ 			if (current.closeBtn) {
+ 				current.closeBtn.off('.btn').on('click.btn', function(event) {
+ 					event.preventDefault();
+ 					lightbox.close();
+ 				});
+ 			}
+ 			
  			if (current.prevBtn) {
  				current.prevBtn.off('.btn').on('click.btn', function(event) {
  					event.preventDefault();
@@ -482,6 +550,8 @@
  					lightbox.next();
  				});
  			}
+
+  			lightbox.isDisplay = true;
  		},
 
  		_afterLoadOut: function() {
@@ -500,13 +570,14 @@
  				lightbox.doUpdate = null;
  				lightbox.current = null;
  				lightbox.coming = null;
- 				lightbox.unbindEvent();
  			}
  		},
 
  		close: function() {
  			if (this.isOpen && !this.isClosing) {
  				this.isClosing = true;
+ 				lightbox.isDisplay = false;
+  				this.unbindEvent();
  				this.trasition[this.opts.closeMethod]();
  			}
  		}
@@ -610,20 +681,23 @@
 		},
 
 		elasticOut: function() {
-			var previous = lightbox.previous,
+			var offsetTopRatio = 0.9,
+ 				offsetLeftRatio = 0.8,
+ 				previous = lightbox.previous,
 				target = lightbox.isClosing ? lightbox.wrap : previous.wrap,
 				pos = this.getCenter(),
 				speed = lightbox.isClosing ? lightbox.opts.changeSpeed : lightbox.opts.closeSpeed,
 				endPos = {
 					opacity: 0,
-					top: (pos.h + pos.y) * lightbox.opts.top,
-					left: (pos.w + pos.x) * lightbox.opts.left,
+					top: (pos.h * offsetTopRatio) * lightbox.opts.top + pos.y,
+ 					left: (pos.w * offsetLeftRatio) * lightbox.opts.left + pos.x,
 				},
 				endSize = {
 					width: 0,
 					height: 0,
 				};
 
+			target.find('.lightbox-title').fadeOut();
 			target.find('.lightbox-inner').stop(true, true).animate(endSize,{
 				duration: speed,
 			});
@@ -825,8 +899,12 @@
  				// get all images from group 'relValue'.
  				what = selector.length ? $(selector) : that;
  				what = what.filter('[' + relType + '=' + relValue + ']');
- 				idx = what.index(this);
+ 				
+ 				if (what.length === 0) {
+  					what = $(this);
+  				}
 
+  				idx = what.index(this);
  				opts.index = idx;
 
  				lightbox.open(what, opts);

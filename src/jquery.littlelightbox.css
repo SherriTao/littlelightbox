@@ -1,11 +1,11 @@
 /*! littlelightBox v0.9 */
 
-/* Mask layer */
-
 .lightbox-wrap * {
 	padding: 0;
 	margin: 0;
 }
+
+/* Mask layer */
 
 .lightbox-mask {
 	position: fixed;
