@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>littleLightBox - Demo For Plign</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+	<!-- Add jQuery library -->
+	<script type="text/javascript" src="../lib/jquery-1.10.2.min.js"></script>
+
+	<!-- Add lightBox main JS and CSS files -->
+	<script type="text/javascript" src="../src/jquery.littlelightbox.js?v=0.9"></script>
+	<link rel="stylesheet" type="text/css" href="../src/jquery.littlelightbox.css?v=0.9" media="screen" />
+
+	<!-- Demo page CSS file -->
+	<link rel="stylesheet" type="text/css" href="demo.css" />
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+			/*
+			 *  Simple image gallery. Uses default settings
+			 */
+
+			$('.lightbox').littleLightBox();
+
+			/*
+			 *  Loop image gallery. Set option 'loop'
+			 */
+
+			$('.lightbox-loop').littleLightBox({
+				loop: true,
+			});
+
+			/*
+			 *  Different effects. 
+			 */
+
+			// 'fadeIn' for opening and closing
+			$('.lightbox-effect-1').littleLightBox({
+				openMethod: 'fadeIn',
+				closeMethod: 'fadeOut',
+			});
+
+			// 'elasticIn' for opening and closing
+			$('.lightbox-effect-2').littleLightBox({
+				openMethod: 'elasticIn',
+				openSpeed: 300,
+				closeMethod: 'elasticOut',
+				closeSpeed: 300
+			});
+
+			// 'changeIn' for opening and closing
+			$('.lightbox-effect-3').littleLightBox({
+				openMethod: 'changeIn',
+				openDirect: 'down',
+				distance: 'hide',
+				openSpeed: 300,
+
+				closeMethod: 'changeOut',
+				closeDirect: 'up',
+				closeSpeed: 300,
+			});
+
+			// different directions of changing effects.
+			$('.lightbox-effect-4').littleLightBox({
+				prevMethod: 'changeOut',
+				nextMethod: 'changeIn',
+				direction: {
+					prev: 'up',
+					next: 'left',
+				}
+			});
+
+			/*
+			 *  Different type of title. 
+			 */
+
+			// 'over' type
+			$('.lightbox-tt-1').littleLightBox({
+				helpers: {
+					title: {
+						type: 'over',
+					}
+				}
+			});
+
+			// 'inside' type. Above image.
+			$('.lightbox-tt-2').littleLightBox({
+				helpers: {
+					title: {
+						type: 'inside',
+						position: 'top'
+					}
+				}
+			});
+
+			// 'inside' type. Below image.
+			$('.lightbox-tt-3').littleLightBox({
+				helpers: {
+					title: {
+						type: 'inside',
+						position: 'bottom'
+					}
+				}
+			});
+		});
+	</script>
+</head>
+<body>
+	<div id="container">
+		<div id="header">
+			<div class="banner">
+				<h1>Little LightBox</h1>
+				<span>Download from <a href="https://github.com/SherriTao/littlelightbox" target="_blank">Github</a></span>
+			</div>
+			<div class="nav">
+				<ul>	
+					<li><a href="#feature">FEATURES</a></li>
+					<li><a href="#example">EXAMPLES</a></li>
+					<li><a href="#contact">CONTACT</a></li>
+				</ul>
+			</div>
+		</div>
+		<div id="content">
+			<div id="desc" class="section">
+				<h2>DESCRIPTION</h2>
+				<p class="pg-en">
+					Little LightBox is a jQuery Plign to display images in a "lightbox" over web page.
+					It's lean and mean and such convenience for use, I dare say it will useful to enrich your web page. And
+					also, maybe you could get something new from src code.
+				</p>
+				<p class="pg-zh">
+					一款基本的、简洁的，十分易于使用的图片画廊插件。希望你可以从Little LightBox中获得和我同等多的乐趣和知识。
+				</p>
+			</div>
+			<div id="feature" class="section">
+				<h2>FEATURES</h2>
+				<ul>
+					<li>
+						<p>Customizable with various options</p>
+					</li>
+					<li>
+						<p>Responsive when size of window changes</p>
+					</li>
+					<li>
+						<p>Support keyboard control for closing lightbox and switch images</p>
+					</li>
+					<li>
+						<p>Support various effects to choice</p>
+					</li>
+				</ul>
+			</div>
+			<div id="example" class="section">
+				<h2>EXAMPLES</h2>
+				<div class="item">
+					<h3>Simple image gallery</h3>
+					<p>Using default options to create lightbox gallery</p>
+					<p>
+						<a class="lightbox" href="1_b.jpg" data-littlelightbox-group="gallery" title="Etiam quis mi eu elit temp"><img src="1_s.jpg" alt="Etiam quis mi eu elit temp" /></a>
+
+						<a class="lightbox" href="2_b.jpg" data-littlelightbox-group="gallery" title="Etiam quis mi eu elit temp"><img src="2_s.jpg" alt="Etiam quis mi eu elit temp" /></a>
+
+						<a class="lightbox" href="3_b.jpg" data-littlelightbox-group="gallery" title="Cras neque mi, semper leon"><img src="3_s.jpg" alt="Cras neque mi, semper leon" /></a>
+
+						<a class="lightbox" href="4_b.jpg" data-littlelightbox-group="gallery" title="Sed vel sapien vel sem uno"><img src="4_s.jpg" alt="Sed vel sapien vel sem uno" /></a>
+					</p>
+				</div>
+
+				<div class="item">
+					<h3>Loop image gallery</h3>
+					<p>Set option <code>{loop: true}</code>, you can get a loop gallery</p>
+					<p>
+						<a class="lightbox-loop" href="3_b.jpg" data-littlelightbox-group="gallery-loop" title="Etiam quis mi eu elit temp"><img src="3_s.jpg" alt="Etiam quis mi eu elit temp" /></a>
+
+						<a class="lightbox-loop" href="2_b.jpg" data-littlelightbox-group="gallery-loop" title="Etiam quis mi eu elit temp"><img src="2_s.jpg" alt="Etiam quis mi eu elit temp" /></a>
+
+						<a class="lightbox-loop" href="4_b.jpg" data-littlelightbox-group="gallery-loop" title="Cras neque mi, semper leon"><img src="4_s.jpg" alt="Cras neque mi, semper leon" /></a>
+
+						<a class="lightbox-loop" href="1_b.jpg" data-littlelightbox-group="gallery-loop" title="Sed vel sapien vel sem uno"><img src="1_s.jpg" alt="Sed vel sapien vel sem uno" /></a>
+					</p>
+				</div>
+
+				<div class="item">
+					<h3>Different effects for appear, disappear and change</h3>
+					<p>You can choose various effects by setting "openEffect", "closeEffect" or "changeEffect" options</p>
+					<p>
+						<a class="lightbox-effect-1" href="5_b.jpg" data-littlelightbox-group="gallery-effect-1" title="Etiam quis mi eu elit temp"><img src="5_s.jpg" alt="Etiam quis mi eu elit temp" /></a>
+
+						<a class="lightbox-effect-2" href="5_b.jpg" data-littlelightbox-group="gallery-effect-2" title="Etiam quis mi eu elit temp"><img src="5_s.jpg" alt="Etiam quis mi eu elit temp" /></a>
+						
+						<a class="lightbox-effect-3" href="5_b.jpg" data-littlelightbox-group="gallery-effect-3" title="Etiam quis mi eu elit temp"><img src="5_s.jpg" alt="Etiam quis mi eu elit temp" /></a>
+						
+						<a class="lightbox-effect-4" href="6_b.jpg" data-littlelightbox-group="gallery-effect-4" title="Etiam quis mi eu elit temp"><img src="6_s.jpg" alt="Etiam quis mi eu elit temp" /></a>
+
+						<a class="lightbox-effect-4" href="7_b.jpg" data-littlelightbox-group="gallery-effect-4" title="Etiam quis mi eu elit temp"><img src="7_s.jpg" alt="Etiam quis mi eu elit temp" /></a>
+					</p>
+				</div>
+
+				<div class="item">
+					<h3>Different title type</h3>
+					<p>You can choose different title type by setting title options <code>helpers: {title: {type: 'inside'}}</code>. 'inside' type title is out of image display area and 'over' type title is flow over display area.</p>
+					<p>
+						<a class="lightbox-tt-1" href="8_b.jpg" title="Etiam quis mi eu elit temp"><img src="8_s.jpg" alt="Etiam quis mi eu elit temp" /></a>
+
+						<a class="lightbox-tt-2" href="8_b.jpg" data-littlelightbox-group="gallery-tt" title="Etiam quis mi eu elit temp"><img src="8_s.jpg" alt="Etiam quis mi eu elit temp" /></a>
+						
+						<a class="lightbox-tt-3" href="8_b.jpg" data-littlelightbox-group="gallery-tt" title="Etiam quis mi eu elit temp"><img src="8_s.jpg" alt="Etiam quis mi eu elit temp" /></a>
+					</p>
+				</div>
+			</div>
+		</div>
+		<div id="footer">
+			<div id="contact">
+				<p>Author: Sherry Tao (Live in Beijing, China)</p>
+				<p>Blog: <a href="https://sherritao.github.io/">SherriTao's Cube</a></p>
+				<p>LinkedIn: <a href="https://www.linkedin.com/in/sherritao">@sherritao</a></p>
+				<p>Email: <a href="mailto:tao_shiyu@hotmail.com" target="_blank">tao_shiyu@hotmail.com</a></p>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

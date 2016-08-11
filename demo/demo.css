@@ -1,0 +1,178 @@
+ /* define Web Font by custom */
+ @font-face {
+    font-family: 'FogtwoNo5';
+    src: url('FogtwoNo5.ttf') format('truetype'),
+	 url('FogtwoNo5.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+ }
+
+* {
+	padding: 0;
+	margin: 0;
+}
+
+p {
+	line-height: 1.5em;
+}
+
+html, body, #container, #header, .banner {
+	height: 100%;
+}
+
+#container, #header, #content, #footer {
+	width: 100%;
+}
+
+body {
+	min-width: 860px;
+	font-family: "FogtwoNo5", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 20px;
+}
+
+#content {
+	width: 70%;
+	margin: 0 auto;
+	padding-top: 30px;
+}
+
+#header {
+	position: relative;
+	width: 100%;
+	height: 120px;
+}
+
+.banner {
+	position: relative;
+	background-color: #0173E1;
+	background: rgba(1,69,220,0.8);
+	color: #fff;
+}
+
+.banner h1 {
+	padding-left: 20px;
+	padding-top: 20px;
+}
+
+.banner span {
+	position: absolute;
+	bottom: 10px;
+	left: 20px;
+}
+
+.banner span a {
+	text-decoration: none;
+	color: #0855A1;
+	background-color: #fff;
+	padding: 2px 4px;
+	position: relative;
+	top: -6px;
+	border-radius: 5px;
+}
+
+.nav {
+	position: absolute;
+	bottom: 0;
+	right: 10%;
+	height: 50px;
+}
+
+.nav ul {
+	list-style: none;
+}
+
+.nav ul li {
+	display: inline-block;
+}
+
+.nav ul li + li {
+	margin-left: 2px;
+}
+
+.nav ul li a {
+	border-top-right-radius: 5px;
+	border-top-left-radius: 5px;
+	border: 1px solid #fff;
+
+	display: block;
+	background: #fff;
+	height: 50px;
+	line-height: 50px;
+	color: #0855A1;
+	text-decoration: none;
+	padding: 0 10px;
+}
+
+.nav ul li a:hover {
+	border: 1px solid #1D83E7;
+	border-bottom: 10px solid #1D83E7;
+}
+
+h2 {
+	border-bottom: 1px solid #CDD1D5;
+	padding-bottom: 15px;
+}
+
+.section {
+	margin-bottom: 40px;
+}
+
+.section ul {
+	padding-left: 45px;
+}
+
+.section p {
+	margin: 15px 0;
+}
+
+.item {
+	padding: 20px 0;
+}
+
+#footer {
+	width: 100%;
+	border-top: 1px solid #719BFF;
+	font-size: 0.8em;
+}
+
+#contact {
+	padding: 10px 0;
+	text-align: center;
+}
+
+#contact a {
+	color: #064DF6;
+	text-decoration: none;
+}
+
+code {
+	color: #C7254E;
+	background-color: #FCE8ED;
+	border-radius: 4px;
+	white-space: normal;
+	font-family: "Source Code Pro",monospace;
+	font-size: 0.9em;
+	padding: 2px 4px;	
+}
+
+/* rules of caption H1~H6, copy from BootStrap */
+h1, h2, h3, h4, h5, h6 {
+	color: ##4E4E57;
+	margin: 0px 0px 20px;
+	/*text-transform: uppercase;*/
+	font-family: "FogtwoNo5", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-weight: 700;
+	letter-spacing: 1px;
+}
+h1 {
+	font-size: 46px;
+}
+h2 {
+	font-size: 36px;
+}
+
+h3 {
+	font-size: 28px;
+}
+
+
